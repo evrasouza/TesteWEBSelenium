@@ -1,47 +1,43 @@
 package Login;
 
 import org.junit.After;
-import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-public class LoginTest {
+
+public class LoginTest {	
 	
-	//Executar tudo que for solicitado no inicio da classe 
-	@BeforeClass
-	public static void beforeClassNotation() {
-		System.out.println("beforeClass");
-	}
+	WebDriver navegador; 
 	
-	//Executar tudo que for solicitado no fim da classe
-	@AfterClass
-	public static void afterClassNotation() {		
-		System.out.println("afterClass");
-	}
-	
-	//Vai ser executar antes de cada @Test
 	@Before
-	public void beforeEachNotation() {
-		System.out.println("before");
+	public void openBrowser() {
+		// Abrir Navegador
+		//System.setProperty("webdriver.chrome.driver","C:\\driver\\chromedriver.exe");
+		navegador = new ChromeDriver();
+		navegador.manage().window().maximize();	 
 	}
 	
-	//Vai ser executar apos cada @Test
 	@After
-	public void afterNotation() {
-		System.out.println("after");
-	}	
-	
-	@Test
-	public void testNotation() {
-		System.out.println("test");
+	public void quitBrowser() {
+		// Fechando o navegador
+		//navegador.close();
+		//navegador.quit();
 	}
 	
 	@Test
-	public void testDoisNotation() {
-		System.out.println("testDois");
-	}
+	public void buscaProduto() {
+		// Navegar para a pagina
+		navegador.get("http://amazon.com.br");
+		Assert.assertEquals("Livros", navegador.findElement(By.xpath("//*[@id=\"nav-xshop\"]/a[5]")).getText());
 		
-
+		// Fazer uma busca de produto
+		navegador.findElement(By.id("twotabsearchtextbox")).sendKeys("smartphone");
+		navegador.findElement(By.id("nav-search-submit-button")).click();		
+	}
+	
 
 }
